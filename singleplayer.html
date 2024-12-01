@@ -6,17 +6,87 @@
     <title>Single Player Blackjack</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <div id="dealer" class="flex justify-center mt-8">Dealer Cards:</div>
-    <div id="top-card-container" class="flex justify-center"></div>
-    <div id="player" class="flex justify-center mt-8">Your Cards:</div>
-    <div id="bottom-card-container" class="flex justify-center mt-8"></div>
-    <div class="flex justify-center mt-8">
-        <button id="hit-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Hit</button>
-        <button id="stand-button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">Stand</button>
+  <body class="flex justify-center items-center min-h-screen bg-green-700">
+    <div class="text-center bg-green-900 p-8 rounded-lg shadow-lg">
+      <div id="dealer" class="flex justify-center mt-8 text-white text-2xl">
+        Dealer Cards:
+      </div>
+      <div id="topCardContainer" class="flex justify-center mt-4"></div>
+      <div id="player" class="flex justify-center mt-8 text-white text-2xl">
+        Your Cards:
+      </div>
+      <div id="bottomCardContainer" class="flex justify-center mt-4"></div>
+      <div class="flex justify-center mt-8">
+        <button
+          id="hitButton"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Hit
+        </button>
+        <button
+          id="standButton"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4"
+        >
+          Stand
+        </button>
+      </div>
+      <div id="betContainer" class="flex justify-center mt-8 text-white">
+        <span id="betAmount" class="text-xl">Bet: $0</span>
+        <span id="activeBet" class="text-xl ml-4">Active Bet: $0</span>
+      </div>
+      <div
+        id="betModal"
+        class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center"
+      >
+        <div class="bg-white p-4 rounded">
+          <label for="betAmountInput">How much would you like to bet?</label>
+          <input
+            type="number"
+            min="1"
+            id="betAmountInput"
+            class="border p-2 m-2"
+          />
+          <button id="betSubmit" class="bg-blue-500 text-white p-2 rounded">
+            Submit
+          </button>
+        </div>
+      </div>
+      <div
+        id="insuranceModal"
+        class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center"
+      >
+        <div class="bg-white p-4 rounded flex flex-col items-center">
+          <p>Would you like to buy insurance?</p>
+          <button
+            id="insuranceYes"
+            class="bg-green-500 text-white p-2 rounded m-2 w-24 text-center"
+          >
+            Yes
+          </button>
+          <button
+            id="insuranceNo"
+            class="bg-red-500 text-white p-2 rounded m-2 w-24 text-center"
+          >
+            No
+          </button>
+        </div>
+      </div>
     </div>
-    <div id="bet-container" class="flex justify-center mt-8">
-      <span id="active-bet" class="text-xl">Active Bet: $0</span>
+    <div
+      id="popupModal"
+      class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+    >
+      <div class="bg-white p-4 rounded-lg shadow-lg text-center">
+        <p id="popupMessage" class="mb-4">Your message here</p>
+        <div class="flex justify-center">
+          <button
+            id="popupClose"
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Close
+          </button>
+        </div>
+      </div>
     </div>
     <script src="js/singleplayer.js"></script>
   </body>
