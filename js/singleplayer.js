@@ -1,3 +1,163 @@
+document.addEventListener("DOMContentLoaded", () => {
 
-// Add single player game logic here
-console.log("Single Player Game Loaded");
+  let fullDeck = [
+    '2_of_hearts', '3_of_hearts', '4_of_hearts', '5_of_hearts', '6_of_hearts', '7_of_hearts', '8_of_hearts', '9_of_hearts', '10_of_hearts', 'jack_of_hearts', 'queen_of_hearts', 'king_of_hearts', 'ace_of_hearts',
+    '2_of_diamonds', '3_of_diamonds', '4_of_diamonds', '5_of_diamonds', '6_of_diamonds', '7_of_diamonds', '8_of_diamonds', '9_of_diamonds', '10_of_diamonds', 'jack_of_diamonds', 'queen_of_diamonds', 'king_of_diamonds', 'ace_of_diamonds',
+    '2_of_clubs', '3_of_clubs', '4_of_clubs', '5_of_clubs', '6_of_clubs', '7_of_clubs', '8_of_clubs', '9_of_clubs', '10_of_clubs', 'jack_of_clubs', 'queen_of_clubs', 'king_of_clubs', 'ace_of_clubs',
+    '2_of_spades', '3_of_spades', '4_of_spades', '5_of_spades', '6_of_spades', '7_of_spades', '8_of_spades', '9_of_spades', '10_of_spades', 'jack_of_spades', 'queen_of_spades', 'king_of_spades', 'ace_of_spades'
+  ];
+
+  let topCards = [];
+  let bottomCards = [];
+  let activeBet = 0
+
+  function shuffleDeck(fullDeck) {
+    const deck = [...fullDeck];
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+    return deck;
+  }
+
+  function displayCard(card, containerId) {
+    const cardContainer = document.getElementById(containerId);
+    const cardImg = document.createElement("img");
+    cardImg.src = `images/${card}.png`;
+    cardImg.alt = card;
+    cardImg.classList.add("w-16", "h-24", "m-1");
+    cardContainer.appendChild(cardImg);
+  }
+
+  function calculateTotal(cards) {
+    let total = 0;
+    let aces = 0;
+
+    cards.forEach(card => {
+      let value = card.split('_')[0];
+      if (value === 'jack' || value === 'queen' || value === 'king') {
+        total += 10;
+      } else if (value === 'ace') {
+        aces += 1;
+        total += 11;
+      } else {
+        total += parseInt(value);
+      }
+    });
+
+    while (total > 21 && aces > 0) {
+      total -= 10;
+      aces -= 1;
+    }
+
+    return {total, aces};
+  }
+
+  function promptBet() {
+    let betAmount = 0;
+    while (betAmount <= 0 || isNaN(betAmount)) {
+      betAmount = parseInt(prompt("How much would you like to bet?"));
+      if (betAmount > 0) {
+        console.log(`You bet $${betAmount}`);
+        activeBet += betAmount;
+        document.getElementById("active-bet").textContent = `Active Bet: $${activeBet}`;
+        break;
+      }
+    }
+  }
+
+  function dealCards(deck) {
+    promptBet();
+    const topCardContainer = document.getElementById("top-card-container");
+    const bottomCardContainer = document.getElementById(
+      "bottom-card-container"
+    );
+
+    topCardContainer.innerHTML = "";
+    bottomCardContainer.innerHTML = "";
+
+    topCards = [];
+    bottomCards = [];
+
+    const dealerCard = deck.shift();
+    displayCard(dealerCard, "top-card-container");
+    displayCard("back", "top-card-container");
+    const dealerCard2 = deck.shift();
+    topCards.push(dealerCard);
+    topCards.push(dealerCard2);
+    if (dealerCard.split('_')[0] === 'ace') {
+      console.log('Insurance?');
+    }
+    for (let i = 0; i < 2; i++) {
+      let playerCard = deck.shift();
+      displayCard(playerCard, "bottom-card-container");
+      bottomCards.push(playerCard);
+    }
+  }
+
+  function hit(deck) {
+    if (deck.length > 0) {
+      const playerCard = deck.shift();
+      displayCard(playerCard, "bottom-card-container");
+      bottomCards.push(playerCard);
+      setTimeout(() => {
+      if (calculateTotal(bottomCards)['total'] > 21) {
+        alert('You lost!');
+        deck = shuffleDeck(fullDeck);
+        dealCards(deck);
+      }
+      }, 100);
+    } else {
+      console.log("No more cards in the deck");
+    }
+  }
+
+  function stand() {
+    console.log("Player stands");
+    const topCardContainer = document.getElementById("top-card-container");
+    const backCardImg = topCardContainer.querySelector('img[src="images/back.png"]');
+    if (backCardImg) {
+      topCardContainer.removeChild(backCardImg);
+    } 
+    displayCard(topCards[1], "top-card-container");
+    let {total: dealerTotal, aces: dealerAces} = calculateTotal(topCards);
+    const {total: playerTotal} = calculateTotal(bottomCards);
+    console.log(playerTotal, dealerTotal);
+    while (dealerTotal < 17 || (dealerTotal == 17 && dealerAces > 0)) {
+      const dealerCard = deck.shift();
+      displayCard(dealerCard, "top-card-container");
+      topCards.push(dealerCard);
+      const result = calculateTotal(topCards);
+      dealerTotal = result.total;
+      dealerAces = result.aces;
+    }
+    setTimeout(() => {
+      if (playerTotal > 21) {
+        alert('You won!');
+        deck = shuffleDeck(fullDeck);
+        dealCards(deck);
+      } else if (playerTotal > dealerTotal) {
+          alert('You won!');
+          deck = shuffleDeck(fullDeck);
+          dealCards(deck);
+      } else if (playerTotal < dealerTotal) {
+        alert('You lost!');
+        deck = shuffleDeck(fullDeck);
+        dealCards(deck);
+      } else {
+        alert('Push!');
+        deck = shuffleDeck(fullDeck);
+        dealCards(deck);
+      }
+    }, 100);
+  }
+
+  deck = shuffleDeck(fullDeck);
+  dealCards(deck);
+  document
+    .getElementById("hit-button")
+    .addEventListener("click", () => hit(deck));
+  document
+    .getElementById("stand-button")
+    .addEventListener("click", stand);
+});

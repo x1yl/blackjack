@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Single Player Blackjack</title>
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-    <h1>Single Player Blackjack</h1>
-    <!-- Add single player game content here -->
+  </head>
+  <body>
+    <div id="dealer" class="flex justify-center mt-8">Dealer Cards:</div>
+    <div id="top-card-container" class="flex justify-center"></div>
+    <div id="player" class="flex justify-center mt-8">Your Cards:</div>
+    <div id="bottom-card-container" class="flex justify-center mt-8"></div>
+    <div class="flex justify-center mt-8">
+        <button id="hit-button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Hit</button>
+        <button id="stand-button" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">Stand</button>
+    </div>
+    <div id="bet-container" class="flex justify-center mt-8">
+      <span id="active-bet" class="text-xl">Active Bet: $0</span>
+    </div>
     <script src="js/singleplayer.js"></script>
-</body>
+  </body>
 </html>
