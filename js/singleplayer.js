@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function shuffleDeck(fullDeck) {
-    const deck = [...fullDeck];
+    deck = [...fullDeck];
     for (let i = deck.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [deck[i], deck[j]] = [deck[j], deck[i]];
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return { total, aces };
   }
 
-  function promptBet() {
+  function promptBet(deck) {
     const interval = setInterval(() => {
       if (popupModal.classList.contains("hidden")) {
         betModal.classList.remove("hidden");
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "activeBet"
           ).textContent = `Current Wallet: $${wallet}`;
           deck = shuffleDeck(fullDeck);
-          promptBet();
+          promptBet(deck);
         } else {
           showPopup("You lost insurance!");
           betAmount -= insuranceAmount;
@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showPopup("You won!");
         wallet += betAmount * 2.5;
         deck = shuffleDeck(fullDeck);
-        promptBet();
+        promptBet(deck);
       }
     }, 100);
   }
@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (calculateTotal(bottomCards)["total"] > 21) {
           showPopup("You lost!");
           deck = shuffleDeck(fullDeck);
-          promptBet();
+          promptBet(deck);
         }
       }, 100);
     } else {
@@ -216,27 +216,27 @@ document.addEventListener("DOMContentLoaded", () => {
         showPopup("You won!");
         wallet += betAmount * 2;
         deck = shuffleDeck(fullDeck);
-        promptBet();
+        promptBet(deck);
       } else if (playerTotal > dealerTotal) {
         showPopup("You won!");
         wallet += betAmount * 2;
         deck = shuffleDeck(fullDeck);
-        promptBet();
+        promptBet(deck);
       } else if (playerTotal < dealerTotal) {
         showPopup("You lost!");
         deck = shuffleDeck(fullDeck);
-        promptBet();
+        promptBet(deck);
       } else {
         showPopup("Push!");
         wallet += betAmount;
         deck = shuffleDeck(fullDeck);
-        promptBet();
+        promptBet(deck);
       }
     }, 100);
   }
 
   deck = shuffleDeck(fullDeck);
-  promptBet();
+  promptBet(deck);
   document
     .getElementById("hitButton")
     .addEventListener("click", () => hit(deck));
