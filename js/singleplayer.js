@@ -1,9 +1,57 @@
 document.addEventListener("DOMContentLoaded", () => {
   let fullDeck = [
-    '2_of_hearts', '3_of_hearts', '4_of_hearts', '5_of_hearts', '6_of_hearts', '7_of_hearts', '8_of_hearts', '9_of_hearts', '10_of_hearts', 'jack_of_hearts', 'queen_of_hearts', 'king_of_hearts', 'ace_of_hearts',
-    '2_of_diamonds', '3_of_diamonds', '4_of_diamonds', '5_of_diamonds', '6_of_diamonds', '7_of_diamonds', '8_of_diamonds', '9_of_diamonds', '10_of_diamonds', 'jack_of_diamonds', 'queen_of_diamonds', 'king_of_diamonds', 'ace_of_diamonds',
-    '2_of_clubs', '3_of_clubs', '4_of_clubs', '5_of_clubs', '6_of_clubs', '7_of_clubs', '8_of_clubs', '9_of_clubs', '10_of_clubs', 'jack_of_clubs', 'queen_of_clubs', 'king_of_clubs', 'ace_of_clubs',
-    '2_of_spades', '3_of_spades', '4_of_spades', '5_of_spades', '6_of_spades', '7_of_spades', '8_of_spades', '9_of_spades', '10_of_spades', 'jack_of_spades', 'queen_of_spades', 'king_of_spades', 'ace_of_spades'
+    "2_of_hearts",
+    "3_of_hearts",
+    "4_of_hearts",
+    "5_of_hearts",
+    "6_of_hearts",
+    "7_of_hearts",
+    "8_of_hearts",
+    "9_of_hearts",
+    "10_of_hearts",
+    "jack_of_hearts",
+    "queen_of_hearts",
+    "king_of_hearts",
+    "ace_of_hearts",
+    "2_of_diamonds",
+    "3_of_diamonds",
+    "4_of_diamonds",
+    "5_of_diamonds",
+    "6_of_diamonds",
+    "7_of_diamonds",
+    "8_of_diamonds",
+    "9_of_diamonds",
+    "10_of_diamonds",
+    "jack_of_diamonds",
+    "queen_of_diamonds",
+    "king_of_diamonds",
+    "ace_of_diamonds",
+    "2_of_clubs",
+    "3_of_clubs",
+    "4_of_clubs",
+    "5_of_clubs",
+    "6_of_clubs",
+    "7_of_clubs",
+    "8_of_clubs",
+    "9_of_clubs",
+    "10_of_clubs",
+    "jack_of_clubs",
+    "queen_of_clubs",
+    "king_of_clubs",
+    "ace_of_clubs",
+    "2_of_spades",
+    "3_of_spades",
+    "4_of_spades",
+    "5_of_spades",
+    "6_of_spades",
+    "7_of_spades",
+    "8_of_spades",
+    "9_of_spades",
+    "10_of_spades",
+    "jack_of_spades",
+    "queen_of_spades",
+    "king_of_spades",
+    "ace_of_spades",
   ];
 
   let topCards = [];
@@ -72,31 +120,31 @@ document.addEventListener("DOMContentLoaded", () => {
     return { total, aces };
   }
 
-  function promptBet(deck) {
+  betSubmit.addEventListener("click", () => {
+    betAmount = parseInt(betInput.value);
+    if (betAmount > 0 && betAmount <= wallet) {
+      console.log(`You bet $${betAmount}`);
+      wallet -= betAmount;
+      console.log(`You have $${wallet} left in your wallet`);
+      document.getElementById(
+        "activeBet"
+      ).textContent = `Current Wallet: $${wallet}`;
+      document.getElementById(
+        "betAmount"
+      ).textContent = `Bet Amount: $${betAmount}`;
+      betModal.classList.add("hidden");
+      dealCards(deck);
+    } else {
+      showPopup(`Invalid bet amount. You have $${wallet} in your wallet.`);
+    }
+  });
+  function promptBet() {
     const interval = setInterval(() => {
       if (popupModal.classList.contains("hidden")) {
         betModal.classList.remove("hidden");
         clearInterval(interval);
       }
     }, 100);
-
-    betSubmit.addEventListener("click", () => {
-      betAmount = parseInt(betInput.value);
-      if (betAmount > 0 && betAmount <= wallet) {
-        console.log(`You bet $${betAmount}`);
-        wallet -= betAmount;
-        document.getElementById(
-          "activeBet"
-        ).textContent = `Current Wallet: $${wallet}`;
-        document.getElementById(
-          "betAmount"
-        ).textContent = `Bet Amount: $${betAmount}`;
-        betModal.classList.add("hidden");
-        dealCards(deck);
-      } else {
-        showPopup(`Invalid bet amount. You have $${wallet} in your wallet.`);
-      }
-    });
   }
 
   function promptInsurance() {
@@ -120,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "activeBet"
           ).textContent = `Current Wallet: $${wallet}`;
           deck = shuffleDeck(fullDeck);
-          promptBet(deck);
+          promptBet();
         } else {
           showPopup("You lost insurance!");
           betAmount -= insuranceAmount;
@@ -165,10 +213,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     setTimeout(() => {
       if (calculateTotal(bottomCards)["total"] === 21) {
-        showPopup("You won!");
+        showPopup("You won! Natural Blackjack!");
         wallet += betAmount * 2.5;
         deck = shuffleDeck(fullDeck);
-        promptBet(deck);
+        promptBet();
       }
     }, 100);
   }
@@ -182,7 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (calculateTotal(bottomCards)["total"] > 21) {
           showPopup("You lost!");
           deck = shuffleDeck(fullDeck);
-          promptBet(deck);
+          promptBet();
         }
       }, 100);
     } else {
@@ -216,27 +264,27 @@ document.addEventListener("DOMContentLoaded", () => {
         showPopup("You won!");
         wallet += betAmount * 2;
         deck = shuffleDeck(fullDeck);
-        promptBet(deck);
+        promptBet();
       } else if (playerTotal > dealerTotal) {
         showPopup("You won!");
         wallet += betAmount * 2;
         deck = shuffleDeck(fullDeck);
-        promptBet(deck);
+        promptBet();
       } else if (playerTotal < dealerTotal) {
         showPopup("You lost!");
         deck = shuffleDeck(fullDeck);
-        promptBet(deck);
+        promptBet();
       } else {
         showPopup("Push!");
         wallet += betAmount;
         deck = shuffleDeck(fullDeck);
-        promptBet(deck);
+        promptBet();
       }
     }, 100);
   }
 
   deck = shuffleDeck(fullDeck);
-  promptBet(deck);
+  promptBet();
   document
     .getElementById("hitButton")
     .addEventListener("click", () => hit(deck));
