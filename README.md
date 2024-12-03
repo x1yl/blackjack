@@ -67,7 +67,7 @@ This project is a web-based Blackjack game that includes both single-player and 
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/blackjack.git
+    git clone https://github.com/x1yl/blackjack.git
     ```
 2. Navigate to the project directory:
     ```sh
