@@ -37,6 +37,7 @@
   <a href="#Installation">Installation</a> &#xa0; | &#xa0;
   <a href="#Usage">Usage</a> &#xa0; | &#xa0;
   <a href="#game-rules">Game Rules</a> &#xa0; | &#xa0;
+  <a href="#preview">Image Preview</a> &#xa0; | &#xa0;
   <a href="#license">License</a> &#xa0; | &#xa0;
   <a href="https://github.com/x1yl" target="_blank">Author</a>
 </p>
@@ -51,6 +52,7 @@ This project is a web-based Blackjack game that includes both single-player and 
 - [Installation](#installation)
 - [Usage](#usage)
 - [Game Rules](#game-rules)
+- [Image Preview](#preview)
 - [License](#license)
 
 ## Features
