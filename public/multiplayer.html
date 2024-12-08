@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi Player Blackjack</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
+</head>
+<body class="bg-gray-800 text-white text-center font-sans">
+    <div class="main-menu mt-20">
+    <h1 class="text-4xl mb-8">Multi Player Blackjack</h1>
+    <div id="game"></div>
+    <button id="create-game-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded m-2">Create Game</button>
+    <button id="join-game-btn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded m-2">Join Game</button>
+    </div>
+    <div id="waiting-room" class="hidden mt-20">
+        <h2 class="text-3xl mb-8">Waiting Room</h2>
+        <div id="players-list"></div>
+        <button id="start-game-btn" class="bg-green-500 hover:bg-green-700 text-white font-bold py-4 px-8 rounded m-2">Start Game</button>
+    </div>
+    <!-- Add multiplayer game content here -->
+    <script src="js/multiplayer.js"></script>
+</body>
+</html>
